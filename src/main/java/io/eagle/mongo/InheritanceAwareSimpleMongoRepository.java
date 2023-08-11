@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.query.MongoEntityInformation;
 import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
-import org.springframework.data.repository.support.PageableExecutionUtils;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.data.util.StreamUtils;
 import org.springframework.data.util.Streamable;
 import org.springframework.lang.Nullable;
@@ -81,6 +81,7 @@ public class InheritanceAwareSimpleMongoRepository<T, ID extends Serializable> e
 
     @Override
     public long count() {
+        mongoOperations.getCollection("");
         return classCriteria != null
             ? mongoOperations.getCollection(entityInformation.getCollectionName()).countDocuments(classCriteriaDocument)
             : mongoOperations.getCollection(entityInformation.getCollectionName()).countDocuments();
@@ -207,16 +208,6 @@ public class InheritanceAwareSimpleMongoRepository<T, ID extends Serializable> e
         return findAll(new Query());
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.springframework.data.repository.CrudRepository#findAllById(java.lang.Iterable)
-     */
-//    @Override
-//    public Iterable<T> findAllById(Iterable<ID> ids) {
-//
-//        return findAll(getQuery().addCriteria(new Criteria(entityInformation.getIdAttribute())
-//            .in(Streamable.of(ids).stream().collect(StreamUtils.toUnmodifiableList()))));
-//    }
 
     /*
      * (non-Javadoc)
