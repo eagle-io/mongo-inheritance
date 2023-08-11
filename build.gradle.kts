@@ -1,5 +1,6 @@
 plugins {
     java
+    `maven-publish`
 }
 
 group = "io.eagle"
@@ -17,6 +18,24 @@ dependencies {
     implementation("org.springframework.data:spring-data-mongodb:3.2.3")
     implementation("org.mongodb:mongodb-driver-sync:4.2.3")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/eagle-io/mongo-inheritance")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_USERNAME")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        register<MavenPublication>("gpr") {
+            from(components["java"])
+        }
+    }
 }
 
 tasks.withType<Test> {

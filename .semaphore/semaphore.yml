@@ -8,8 +8,10 @@ blocks:
   - name: Commit Suite & Build
     task:
       jobs:
-        - name: Build
+        - name: Build & Publish
           commands:
             - checkout
             - ./gradlew build
             - ./gradlew publish
+      secrets:
+        - name: github-jarrah
