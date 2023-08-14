@@ -25,10 +25,10 @@ public class MongoInheritanceScanner {
 
 	private static MongoInheritanceScanner instance;
 
-	public MongoInheritanceScanner(Set<String> basePackages) {
+	public MongoInheritanceScanner(String[] basePackages) {
 		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
 		provider.addIncludeFilter(new AnnotationTypeFilter(TypeAlias.class));
-		basePackages.forEach(basePackage -> {
+		Arrays.stream(basePackages).forEach(basePackage -> {
 					provider.findCandidateComponents(basePackage).forEach(it -> {
 						classes.add(it.getBeanClassName());
 					});

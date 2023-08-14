@@ -7,7 +7,7 @@ group = "io.eagle"
 version = "1.0.10"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_9
+    sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
 repositories {

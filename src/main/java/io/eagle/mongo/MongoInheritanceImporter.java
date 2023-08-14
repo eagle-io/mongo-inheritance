@@ -20,10 +20,8 @@ public class MongoInheritanceImporter implements ImportBeanDefinitionRegistrar {
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(
                 metadata.getAnnotationAttributes(EnableMongoInheritanceRepositories.class.getCanonicalName(), false));
 
-        Set<String> basePackages = Set.of(attributes.getStringArray("basePackages"));
-
         BeanDefinition beanDefinition = BeanDefinitionBuilder.rootBeanDefinition(MongoInheritanceScanner.class)
-                .addConstructorArgValue(basePackages)
+                .addConstructorArgValue(attributes.getStringArray("basePackages"))
                 .setScope(ConfigurableBeanFactory.SCOPE_SINGLETON)
                 .getBeanDefinition();
 

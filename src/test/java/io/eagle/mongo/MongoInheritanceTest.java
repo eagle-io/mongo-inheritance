@@ -9,7 +9,8 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import java.util.List;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,8 +45,8 @@ public class MongoInheritanceTest {
         Car car = this.carRepository.save(new Car());
         Truck truck = this.truckRepository.save(new Truck());
 
-        assertEquals(List.of(car), this.carRepository.findAll());
-        assertEquals(List.of(truck), this.truckRepository.findAll());
-        assertEquals(List.of(car, truck), this.vehicleRepository.findAll());
+        assertEquals(Arrays.asList(car), this.carRepository.findAll());
+        assertEquals(Arrays.asList(truck), this.truckRepository.findAll());
+        assertEquals(Arrays.asList(car, truck), this.vehicleRepository.findAll());
     }
 }
