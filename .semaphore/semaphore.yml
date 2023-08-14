@@ -5,6 +5,13 @@ agent:
     type: e1-standard-2
     os_image: ubuntu2004
   containers:
+    - name: main
+      image: 'argosio/ci-deploy:latest'
+      env_vars:
+        - name: MONGO_HOST
+          value: 'mongo:27017'
+        - name: SPRING_DATA_MONGODB_HOST
+          value: 'mongo'
     - name: mongo
       image: 'mongo:4.2.18'
       env_vars:
@@ -12,6 +19,19 @@ agent:
           value: evalUser
         - name: MONGO_INITDB_ROOT_PASSWORD
           value: foobar
+  image_pull_secrets:
+    - name: dockerhub-pull-secrets
+global_job_config:
+  env_vars:
+    - name: TERM
+      value: dumb
+  secrets:
+    - name: dockerhub-pull-secrets
+    - name: github-jarrah
+  prologue:
+    commands:
+      - echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+      - checkout
 blocks:
   - name: Commit Suite & Build
     task:
@@ -21,5 +41,3 @@ blocks:
             - checkout
             - ./gradlew build --info --stacktrace
             - ./gradlew publish
-      secrets:
-        - name: github-jarrah
