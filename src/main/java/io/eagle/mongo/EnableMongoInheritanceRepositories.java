@@ -1,13 +1,10 @@
 package io.eagle.mongo;
 
-import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.data.mongodb.repository.support.MongoRepositoryFactoryBean;
-import org.springframework.data.repository.config.DefaultRepositoryBaseClass;
 import org.springframework.data.repository.query.QueryLookupStrategy;
 
 import java.lang.annotation.ElementType;
@@ -75,23 +72,6 @@ public @interface EnableMongoInheritanceRepositories {
     @AliasFor(annotation = EnableMongoRepositories.class, attribute = "queryLookupStrategy")
     QueryLookupStrategy.Key queryLookupStrategy() default QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND;
 
-    /**
-     * Returns the {@link FactoryBean} class to be used for each repository instance. Defaults to
-     * {@link MongoRepositoryFactoryBean}.
-     *
-     * @return {@link MongoRepositoryFactoryBean} by default.
-     */
-    @AliasFor(annotation = EnableMongoRepositories.class, attribute = "repositoryFactoryBeanClass")
-    Class<?> repositoryFactoryBeanClass() default MongoRepositoryFactoryBean.class;
-
-    /**
-     * Configure the repository base class to be used to create repository proxies for this particular configuration.
-     *
-     * @return {@link DefaultRepositoryBaseClass} by default.
-     * @since 1.8
-     */
-    @AliasFor(annotation = EnableMongoRepositories.class, attribute = "repositoryBaseClass")
-    Class<?> repositoryBaseClass() default DefaultRepositoryBaseClass.class;
 
     /**
      * Configures the name of the {@link MongoTemplate} bean to be used with the repositories detected.

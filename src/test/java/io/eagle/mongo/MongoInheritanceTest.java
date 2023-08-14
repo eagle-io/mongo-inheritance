@@ -1,13 +1,15 @@
 package io.eagle.mongo;
 
 import io.eagle.mongo.models.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
-
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 @Import(MongoInheritanceTest.TestConfig.class)
 public class MongoInheritanceTest {
-
     @SpringBootConfiguration
     @EnableMongoInheritanceRepositories(basePackages={"io.eagle.mongo.models"})
-    static class TestConfig {}
+    static class TestConfig {
+    }
 
     @Autowired
     CarRepository carRepository;
@@ -29,13 +31,21 @@ public class MongoInheritanceTest {
     @Autowired
     VehicleRepository vehicleRepository;
 
+    @Autowired
+    MongoTemplate mongoTemplate;
+
+    @BeforeEach
+    void before() {
+        this.mongoTemplate.getDb().drop();
+    }
+
     @Test
     void findByRepoType() {
-        this.carRepository.save(new Car());
-        this.truckRepository.save(new Truck());
+        Car car = this.carRepository.save(new Car());
+        Truck truck = this.truckRepository.save(new Truck());
 
-        assertEquals(1, this.carRepository.findAll().size());
-        assertEquals(1, this.truckRepository.findAll().size());
-        assertEquals(2, this.vehicleRepository.findAll().size());
+        assertEquals(List.of(car), this.carRepository.findAll());
+        assertEquals(List.of(truck), this.truckRepository.findAll());
+        assertEquals(List.of(car, truck), this.vehicleRepository.findAll());
     }
 }

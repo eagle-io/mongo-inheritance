@@ -34,6 +34,7 @@ public class MongoInheritanceScanner {
 					});
 					System.out.println("mongo-inheritance: found " + classes.size() + " models under " + basePackage);
 				});
+
 		instance = this;
 	}
 
