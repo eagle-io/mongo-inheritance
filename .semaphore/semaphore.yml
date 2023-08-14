@@ -4,6 +4,14 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu2004
+  containers:
+    - name: mongo
+      image: 'mongo:4.2.18'
+      env_vars:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: evalUser
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: foobar
 blocks:
   - name: Commit Suite & Build
     task:
