@@ -13,7 +13,7 @@ This repository implementation ensures queries only consider documents matching 
 <dependency>
   <groupId>io.eagle</groupId>
   <artifactId>mongo-inheritance</artifactId>
-  <version>1.0.10</version>
+  <version>1.0.11</version>
 </dependency>
 ```
 
