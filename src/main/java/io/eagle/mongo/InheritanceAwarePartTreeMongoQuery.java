@@ -17,7 +17,7 @@ public class InheritanceAwarePartTreeMongoQuery extends PartTreeMongoQuery {
                                               ExpressionParser expressionParser, QueryMethodEvaluationContextProvider evaluationContextProvider) {
         super(method, mongoOperations, expressionParser, evaluationContextProvider);
 
-		inheritanceCriteria = MongoClassInheritanceScanner.getInstance().createInheritanceCritera(
+		inheritanceCriteria = MongoInheritanceScanner.getInstance().createInheritanceCritera(
 			method.getEntityInformation().getJavaType());
     }
 

@@ -5,7 +5,6 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
 
 import java.lang.reflect.Modifier;
 import java.util.*;
@@ -18,30 +17,27 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
  * Calculates subclasses for any mongo entity class. We use string class names instead of classes here, due to different classloader
  * problem with spring boot libraries.
  */
-public class MongoClassInheritanceScanner {
+public class MongoInheritanceScanner {
 
 	protected List<String> classes = Collections.synchronizedList(new ArrayList<>());
 	protected Map<String, List<String>> allClasses = new ConcurrentHashMap<>();
 	protected Map<Class, List<String>> aliases = new ConcurrentHashMap<>();
 
-	private static MongoClassInheritanceScanner instance;
+	private static MongoInheritanceScanner instance;
 
-	private static final String BASE_CLASS_PROPERTY_NAME = "mongo-inheritance.basePackage";
-
-	private MongoClassInheritanceScanner() {
+	public MongoInheritanceScanner(Set<String> basePackages) {
 		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
 		provider.addIncludeFilter(new AnnotationTypeFilter(TypeAlias.class));
-		String basePackage = System.getProperty(BASE_CLASS_PROPERTY_NAME);
-		Assert.notNull(basePackage, BASE_CLASS_PROPERTY_NAME + " must be specified!");
-		provider.findCandidateComponents(basePackage).forEach(it -> {
-			classes.add(it.getBeanClassName());
-		});
+		basePackages.forEach(basePackage -> {
+					provider.findCandidateComponents(basePackage).forEach(it -> {
+						classes.add(it.getBeanClassName());
+					});
+					System.out.println("mongo-inheritance: found " + classes.size() + " models under " + basePackage);
+				});
+		instance = this;
 	}
 
-	public static MongoClassInheritanceScanner getInstance() {
-		if (instance==null)
-			instance = new MongoClassInheritanceScanner();
-
+	public static MongoInheritanceScanner getInstance() {
 		return instance;
 	}
 

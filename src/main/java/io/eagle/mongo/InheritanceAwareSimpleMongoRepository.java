@@ -50,7 +50,7 @@ public class InheritanceAwareSimpleMongoRepository<T, ID extends Serializable> e
         this.mongoOperations = mongoOperations;
         this.entityInformation = metadata;
 
-		classCriteria = MongoClassInheritanceScanner.getInstance().createInheritanceCritera(entityInformation.getJavaType());
+		classCriteria = MongoInheritanceScanner.getInstance().createInheritanceCritera(entityInformation.getJavaType());
 		classCriteriaDocument = classCriteria!=null ? classCriteria.getCriteriaObject() : new Document();
     }
 

@@ -95,7 +95,7 @@ public class InheritanceAwareMongoRepositoryFactory extends MongoRepositoryFacto
 	 * Injects {@link TypeAlias} into mongo @{@link Query}'s {@code #{#entityName}} expression.
 	 */
 	private static String enhanceQuery(String query, MongoQueryMethod method) {
-		String typeAlias = MongoClassInheritanceScanner.getInstance().findAlias(method.getEntityInformation().getJavaType());
+		String typeAlias = MongoInheritanceScanner.getInstance().findAlias(method.getEntityInformation().getJavaType());
 
 		if (typeAlias!=null)
 			return query.replaceAll("\\#\\{\\#entityName\\}", "'" + typeAlias + "'");

@@ -10,15 +10,8 @@ Include configuration to ensure all repositories are inheritance aware.
 
 ```java
 @Configuration
-@EnableMongoRepositories(
-        repositoryBaseClass = InheritanceAwareSimpleMongoRepository.class,
-        repositoryFactoryBeanClass = InheritanceAwareMongoRepositoryFactoryBean.class)
-public class SpringConfig() {}
-```
-
-Define a property to describe the base package of all models in your project.
-```properties
-mongo-inheritance.basePackage = io.eagle.models
+@EnableMongoInheritanceRepositories(basePackages={"io.eagle.mongo.models"})
+public class AppConfig() {}
 ```
 
 Rules of operation:
@@ -31,4 +24,5 @@ Functionality:
 - Superclass repositories should work on all data within a collection.
 - Subclass repositories should only work on data that are of the subclass type - meaning that a condition
  involving the `_class` field should be automatically added to all queries before they reach MongoDB.
-https://github.com/l0co/spring-data-mongodb-inheritance-test
+
+Inspired by https://github.com/l0co/spring-data-mongodb-inheritance-test
