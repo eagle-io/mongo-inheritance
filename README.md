@@ -1,10 +1,21 @@
 # mongo-inheritance
 
+
+![Build Status](https://eagle-io.semaphoreci.com/badges/mongo-inheritance.svg?style=shields)
+
 Spring Data MongoDB includes a `_class` field with each document; this is used by the object mapper to instantiate the correct model. The default repository implementation however, does not constrain queries by `_class`, which can lead to confusing results.
 
 This repository implementation ensures queries only consider documents matching or inheriting from the type defined by the repository declaration, e.g. `MongoRepository<Car, ObjectId>()` will only consider documents with a `_class` field that matches or extends `Car`.
 
 ## Usage
+
+```xml
+<dependency>
+  <groupId>io.eagle</groupId>
+  <artifactId>mongo-inheritance</artifactId>
+  <version>1.0.10</version>
+</dependency>
+```
 
 Include configuration to ensure all repositories are inheritance aware.
 
