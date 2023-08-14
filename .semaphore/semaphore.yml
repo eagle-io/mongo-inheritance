@@ -6,7 +6,7 @@ agent:
     os_image: ubuntu2004
   containers:
     - name: main
-      image: 'argosio/ci-deploy:latest'
+      image: 'argosio/ci-backend-build:latest'
       env_vars:
         - name: MONGO_HOST
           value: 'mongo:27017'
